@@ -10,7 +10,7 @@
   ],
   "private": true,
   "scripts": {
-    "dev": "next dev -p ${PORT-3030}",
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider next dev -p ${PORT-3030}",
     "build": "next build",
     "start": "next start"
   },
@@ -30,7 +30,7 @@
     "react-hook-form": "^7.12.2",
     "react-intersection-observer": "^8.32.0",
     "sass": "^1.35.1",
-    "sharp": "^0.28.3",
+    "sharp": "^0.33.5",
     "smoothscroll-polyfill": "^0.4.4",
     "swr": "^0.5.6"
   },

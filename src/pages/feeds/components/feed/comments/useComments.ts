@@ -8,9 +8,9 @@ export function useComments(id: number) {
   });
 
   return {
-    data: data!,
-    isEmpty: data!.length === 0,
-    hasOnlyOne: data!.length - 1 === 0,
+    data: data ?? [],
+    isEmpty: !data || data.length === 0,
+    hasOnlyOne: data?.length === 1,
     ...rest,
   };
 }
