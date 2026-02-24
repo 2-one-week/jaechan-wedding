@@ -1,81 +1,63 @@
 import { NextImage } from '@models/common/NextImage';
-import {
-  motion,
-  MotionProps,
-  PanInfo,
-  useMotionValue,
-  useMotionValueEvent,
-  useTransform,
-} from 'framer-motion';
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { motion, PanInfo } from 'framer-motion';
+import { PropsWithChildren, useCallback, useEffect } from 'react';
 import { css } from 'stitches.config';
 
-interface Props extends MotionProps {
+interface Props {
   imageContent: NextImage | null;
   setNext?: () => void;
   setPrev?: () => void;
-
-  setPrevToBackgroundContent?: () => void;
-  setNextToBackgroundContent?: () => void;
+  direction?: number;
 }
 
-const FADE_OUT = {
-  LEFT: -250,
-  RIGHT: 250,
+const DRAG_BREAK_POINT = 100;
+
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction >= 0 ? '100%' : '-100%',
+    scale: 0.85,
+    opacity: 0.5,
+  }),
+  center: {
+    x: 0,
+    scale: 1,
+    opacity: 1,
+    transition: {
+      x: { type: 'spring' as const, stiffness: 400, damping: 35 },
+      scale: { duration: 0.3 },
+      opacity: { duration: 0.2 },
+    },
+  },
+  exit: (direction: number) => ({
+    x: direction >= 0 ? '-30%' : '30%',
+    scale: 0.85,
+    opacity: 0,
+    transition: { duration: 0.3 },
+  }),
 };
 
-const DRAG_BREAK_POINT = 100;
 export default function ContentWrapper({
   imageContent,
   setNext,
   setPrev,
   children,
-  setPrevToBackgroundContent,
-  setNextToBackgroundContent,
-  ...props
+  direction = 0,
 }: PropsWithChildren<Props>) {
-  const x = useMotionValue(0);
-  const scale = useTransform(x, [-150, 0, 150], [0.5, 1, 0.5]);
-  const [exitX, setExitX] = useState<string | number>('100%');
-
   useEffect(() => {
-    // 모바일에서 컨텐츠 넘겼을때 스크롤 밀리는 것 방지
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
-
-  useMotionValueEvent(x, 'change', value => {
-    if (value < -20) {
-      setNextToBackgroundContent?.();
-    }
-
-    if (value > 20) {
-      setPrevToBackgroundContent?.();
-    }
-  });
-
-  useEffect(() => {
-    if (exitX === FADE_OUT.LEFT) {
-      setNext?.();
-    }
-
-    if (exitX === FADE_OUT.RIGHT) {
-      setPrev?.();
-    }
-
-    return () => {
-      setExitX('100%');
-    };
-  }, [exitX, setNext, setPrev]);
 
   function handleDragEnd(
     _: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo
   ) {
     if (info.offset.x < -DRAG_BREAK_POINT) {
-      return setExitX(FADE_OUT.LEFT);
+      setNext?.();
+      return;
     }
     if (info.offset.x > DRAG_BREAK_POINT) {
-      return setExitX(FADE_OUT.RIGHT);
+      setPrev?.();
+      return;
     }
   }
 
@@ -98,10 +80,14 @@ export default function ContentWrapper({
     <motion.section
       className={wrapperStyle()}
       style={{
-        x,
         width: '100%',
         cursor: 'grab',
       }}
+      custom={direction}
+      variants={slideVariants}
+      initial="enter"
+      animate="center"
+      exit="exit"
       drag="x"
       dragConstraints={{
         top: 0,
@@ -112,25 +98,17 @@ export default function ContentWrapper({
       onDragEnd={handleDragEnd}
       onClick={handleTap}
       whileTap={{ cursor: 'grabbing' }}
-      exit={{
-        x: exitX,
-        opacity: 0,
-        scale: 0.5,
-        transition: { duration: 0.2 },
-      }}
-      {...props}
     >
       {imageContent != null ? (
-        <motion.div
+        <div
           className={backgroundStyle()}
           style={{
-            scale,
             backgroundImage: `url(${imageContent.blurDataURL})`,
             width: '100%',
           }}
         >
           {children}
-        </motion.div>
+        </div>
       ) : null}
     </motion.section>
   );

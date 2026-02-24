@@ -103,12 +103,15 @@ export default function HighlightPage({ highlight, highlightDataSet }: Props) {
     );
   });
 
+  const [direction, setDirection] = useState(0);
+
   const setNext = useCallback(() => {
     if (index === highlightDataSet!.length - 1) {
       router.push('/');
       return;
     }
 
+    setDirection(1);
     setIndex((prev: number) => prev + 1);
   }, [highlightDataSet, index, router]);
 
@@ -118,6 +121,7 @@ export default function HighlightPage({ highlight, highlightDataSet }: Props) {
       return;
     }
 
+    setDirection(-1);
     setIndex((prev: number) => prev - 1);
   }, [index, router]);
 
@@ -128,72 +132,17 @@ export default function HighlightPage({ highlight, highlightDataSet }: Props) {
     ? highlightDataSet?.[index].contents[0].image
     : null;
 
-  const 이전_컨텐츠_대표_이미지 =
-    index > 0 ? highlightDataSet?.[index - 1].contents[0].image : null;
-  const 다음_컨텐츠_대표_이미지 =
-    index < dataLength - 1
-      ? highlightDataSet?.[index + 1].contents[0].image
-      : null;
-
-  const [backgroundContent, setBackgroundContent] =
-    useState(다음_컨텐츠_대표_이미지);
-
-  const setPrevToBackgroundContent = useCallback(() => {
-    setBackgroundContent(이전_컨텐츠_대표_이미지);
-  }, [이전_컨텐츠_대표_이미지]);
-
-  const setNextToBackgroundContent = useCallback(() => {
-    setBackgroundContent(다음_컨텐츠_대표_이미지);
-  }, [다음_컨텐츠_대표_이미지]);
-
   return highlight == null ? (
     <div>잘못된 접근</div>
   ) : (
-    <AnimatePresence initial={false}>
-      {backgroundContent != null ? (
-        <ContentWrapper
-          key={index + 1}
-          imageContent={backgroundContent}
-          initial={{ scale: 0, y: 105, opacity: 0 }}
-          animate={{ scale: 0.75, y: 30, opacity: 0.5 }}
-          transition={{
-            scale: { duration: 0.2 },
-            opacity: { duration: 0.4 },
-          }}
-        >
-          <Header
-            thumbnailImage={highlight.thumbnailImage}
-            onClose={router.back}
-          >
-            {account.name}
-          </Header>
-          <StyledMotionDiv
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Image.Root>
-              <Image {...backgroundContent} width={520} height={520}>
-                <Image.Source src={backgroundContent.src} alt="재여비" />
-              </Image>
-            </Image.Root>
-          </StyledMotionDiv>
-        </ContentWrapper>
-      ) : null}
-
+    <AnimatePresence initial={false} custom={direction}>
       {대표_컨텐츠_이미지 != null ? (
         <ContentWrapper
           key={index}
           imageContent={대표_컨텐츠_이미지}
-          animate={{ scale: 1, y: 0, opacity: 1 }}
-          drag="x"
+          direction={direction}
           setPrev={setPrev}
           setNext={setNext}
-          transition={{
-            opacity: { duration: 0.2 },
-          }}
-          setPrevToBackgroundContent={setPrevToBackgroundContent}
-          setNextToBackgroundContent={setNextToBackgroundContent}
         >
           <Header
             thumbnailImage={highlight.thumbnailImage}
