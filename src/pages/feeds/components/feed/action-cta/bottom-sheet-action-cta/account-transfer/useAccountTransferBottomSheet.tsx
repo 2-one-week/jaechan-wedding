@@ -6,7 +6,7 @@ import { BankInfo } from '@models/Bank';
 import { useBankData } from '@pages/feeds/components/feed/action-cta/bottom-sheet-action-cta/account-transfer/useBankData';
 import { ToastWrapper } from '@pages/feeds/components/feed/ToastWrapper';
 import { copyToClipboard } from '@utils/copyToClipboard';
-import React, { ComponentProps, useCallback, useMemo } from 'react';
+import { ComponentProps, useCallback, useMemo } from 'react';
 
 export function useAccountTransferBottomSheet() {
   const { open } = useDialog();
@@ -51,7 +51,7 @@ function BankAccountListItem({
   onClick,
   ...props
 }: BankInfo['groom'][number] &
-  Omit<ComponentProps<typeof List['Item']>, 'leftAddon' | 'rightAddon'>) {
+  Omit<ComponentProps<(typeof List)['Item']>, 'leftAddon' | 'rightAddon'>) {
   const { showNotification } = useNotifications();
   const openToast = useCallback(() => {
     copyToClipboard(accountNumber);
@@ -65,7 +65,7 @@ function BankAccountListItem({
     });
   }, [accountNumber, bankName, holderName, showNotification]);
   const handleClick = useCallback(
-    e => {
+    (e: any) => {
       onClick?.(e);
       openToast();
     },

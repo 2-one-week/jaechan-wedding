@@ -15,7 +15,7 @@ export function useOsShareBottomSheet({ onError, onSuccess, value }: Params) {
         try {
           await window.navigator.share(value);
           onSuccess?.();
-        } catch (error) {
+        } catch (error: any) {
           onError?.(error.name === 'AbortError' ? 'ABORTED' : 'UNKNOWN');
         }
       } else {

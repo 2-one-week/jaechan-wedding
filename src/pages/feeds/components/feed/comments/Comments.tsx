@@ -3,7 +3,7 @@ import { SmallGrayButton } from '@pages/feeds/components/feed/comments/SmallGray
 import { CommentRow } from '@pages/feeds/components/feed/comments/CommentRow';
 import { useComments } from '@pages/feeds/components/feed/comments/useComments';
 import { motion } from 'framer-motion';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { styled } from 'stitches.config';
 
 const variants = {
@@ -11,7 +11,7 @@ const variants = {
     height: 42,
     overflow: 'hidden',
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       damping: 40,
       stiffness: 500,
     },
@@ -20,7 +20,7 @@ const variants = {
     height: 'auto',
     overflow: 'visible',
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       damping: 40,
       stiffness: 500,
     },

@@ -1,10 +1,14 @@
 import { 아이콘_컬러 } from 'stitches.config';
 
-export default function Close() {
+interface Props {
+  color?: string;
+}
+
+export default function Close({ color }: Props) {
   return (
     <svg
       aria-label="닫기"
-      fill={아이콘_컬러}
+      fill={color ?? 아이콘_컬러}
       height="16"
       role="img"
       viewBox="0 0 48 48"

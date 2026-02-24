@@ -1,16 +1,16 @@
 import { NextImage } from '@models/common/NextImage';
 import {
-  DraggableProps,
   motion,
   MotionProps,
   PanInfo,
   useMotionValue,
+  useMotionValueEvent,
   useTransform,
 } from 'framer-motion';
-import { PropsWithChildren, useEffect, useState } from 'react';
-import { styled } from 'stitches.config';
+import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { css } from 'stitches.config';
 
-interface Props extends DraggableProps, MotionProps {
+interface Props extends MotionProps {
   imageContent: NextImage | null;
   setNext?: () => void;
   setPrev?: () => void;
@@ -43,21 +43,15 @@ export default function ContentWrapper({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  useEffect(() => {
-    const unsubscribeX = x.onChange(value => {
-      if (value < -20) {
-        setNextToBackgroundContent?.();
-      }
+  useMotionValueEvent(x, 'change', value => {
+    if (value < -20) {
+      setNextToBackgroundContent?.();
+    }
 
-      if (value > 20) {
-        setPrevToBackgroundContent?.();
-      }
-    });
-
-    return () => {
-      unsubscribeX();
-    };
-  }, [setNextToBackgroundContent, setPrevToBackgroundContent, x]);
+    if (value > 20) {
+      setPrevToBackgroundContent?.();
+    }
+  });
 
   useEffect(() => {
     if (exitX === FADE_OUT.LEFT) {
@@ -85,13 +79,30 @@ export default function ContentWrapper({
     }
   }
 
+  const handleTap = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const half = rect.width / 2;
+
+      if (clickX < half) {
+        setPrev?.();
+      } else {
+        setNext?.();
+      }
+    },
+    [setNext, setPrev]
+  );
+
   return (
-    <StyledMotionWrapper
+    <motion.section
+      className={wrapperStyle()}
       style={{
         x,
         width: '100%',
         cursor: 'grab',
       }}
+      drag="x"
       dragConstraints={{
         top: 0,
         right: 0,
@@ -99,6 +110,7 @@ export default function ContentWrapper({
         left: 0,
       }}
       onDragEnd={handleDragEnd}
+      onClick={handleTap}
       whileTap={{ cursor: 'grabbing' }}
       exit={{
         x: exitX,
@@ -109,7 +121,8 @@ export default function ContentWrapper({
       {...props}
     >
       {imageContent != null ? (
-        <BackgroundMotionDiv
+        <motion.div
+          className={backgroundStyle()}
           style={{
             scale,
             backgroundImage: `url(${imageContent.blurDataURL})`,
@@ -117,27 +130,21 @@ export default function ContentWrapper({
           }}
         >
           {children}
-        </BackgroundMotionDiv>
+        </motion.div>
       ) : null}
-    </StyledMotionWrapper>
+    </motion.section>
   );
 }
 
-const StyledMotionWrapper = styled(motion.section, {
+const wrapperStyle = css({
   backgroundColor: '$transparent',
-
   height: '100vh',
-
   position: 'absolute',
   top: 0,
-
-  // framer-motion이 drag="x"때 pan-y넣는것 override
-  touchAction: 'pan-x !important',
 });
 
-const BackgroundMotionDiv = styled(motion.div, {
+const backgroundStyle = css({
   br: '$3',
-
   backgroundSize: 'cover',
   height: '100%',
 });

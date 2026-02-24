@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { CSSProps, hexToRgba } from '@utils/styles';
 import { styled, theme, rawColors } from 'stitches.config';
 

@@ -1,4 +1,4 @@
-import React, {
+import {
   cloneElement,
   Children,
   ReactElement,
@@ -8,14 +8,14 @@ import React, {
   useImperativeHandle,
 } from 'react';
 import 'keen-slider/keen-slider.min.css';
-import KeenSlider from 'keen-slider/react';
+import type { KeenSliderInstance } from 'keen-slider';
 import cx from 'classnames';
 
 import { useCarousel, Options as CarouselOptions } from './useCarousel';
 import { styled } from 'stitches.config';
 
 export interface SliderRef {
-  slider: () => KeenSlider;
+  slider: () => KeenSliderInstance | null;
   moveTo: (index: number) => void;
 }
 interface PageProps {
@@ -28,7 +28,7 @@ interface Props
   dot?: (props: PageProps) => ReactElement;
   pageInfo?: (props: PageProps) => ReactElement;
   children: ReactElement[] | ReactElement;
-  onChange?: (instance: KeenSlider) => void;
+  onChange?: (instance: KeenSliderInstance) => void;
 }
 const Carousel = forwardRef(function Carousel(
   {
@@ -53,7 +53,7 @@ const Carousel = forwardRef(function Carousel(
     () => {
       return {
         slider() {
-          return slider;
+          return slider.current;
         },
         moveTo(index: number) {
           setIndex(index);
@@ -67,10 +67,9 @@ const Carousel = forwardRef(function Carousel(
     <Wrapper>
       <div ref={sliderRef} className={cx('keen-slider', className)}>
         {Children.toArray(children).map(child => {
-          const carouselItem = child as ReactElement;
+          const carouselItem = child as ReactElement<{ className?: string }>;
 
           return cloneElement(carouselItem, {
-            ...carouselItem.props,
             className: cx('keen-slider__slide', carouselItem.props.className),
           });
         })}

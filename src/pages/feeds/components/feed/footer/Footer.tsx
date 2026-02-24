@@ -1,5 +1,5 @@
 import { Flex } from '@components/util/layout/Flex';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Text from '@components/text';
 import { useInView } from 'react-intersection-observer';
 import { Share } from './Share';

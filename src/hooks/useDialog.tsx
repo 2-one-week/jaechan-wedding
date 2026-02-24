@@ -71,7 +71,7 @@ function DialogProvider({ children }: Props) {
           onCancel: handleCancel,
         });
 
-        setDialogNode(element);
+        setDialogNode(element as ReactNode);
         setIsDialogOpen(true);
       });
     },
@@ -85,10 +85,9 @@ function DialogProvider({ children }: Props) {
   return (
     <DialogContext.Provider value={context}>
       {children}
-      {isValidElement(dialogNode)
+      {isValidElement<CommonDialogProps>(dialogNode)
         ? cloneElement(dialogNode, {
             onClose: handleCancel,
-            ...dialogNode.props,
             open: isDialogOpen,
           })
         : null}

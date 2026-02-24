@@ -16,7 +16,7 @@ import { Tags } from '@pages/feeds/components/feed/Tags';
 import fadeEntrance from '@utils/animation/fadeEntrance';
 import { scrollIntoView } from '@utils/scrollIntoView';
 import { motion } from 'framer-motion';
-import React, { ReactNode, useCallback, useRef } from 'react';
+import { ReactNode, useCallback, useRef } from 'react';
 import { css, styled } from 'stitches.config';
 import { FeedCarouselWrapper } from './FeedCarouselWrapper';
 import { Footer } from './footer/Footer';

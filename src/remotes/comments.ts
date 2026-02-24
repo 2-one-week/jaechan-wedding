@@ -9,19 +9,19 @@ export interface Comment {
 
 export async function getComments(feedId: number) {
   const { data } = await api
-    .from<Comment>('comments')
+    .from('comments')
     .select('id, feedId, message, createAt')
     .eq('feedId', feedId)
     .order('id', { ascending: false });
 
-  return data;
+  return data as Comment[] | null;
 }
 
 export async function addComment(
   feedId: number,
   { message }: Pick<Comment, 'message'>
 ) {
-  return api.from<Comment>('comments').upsert({
+  return api.from('comments').upsert({
     feedId,
     message,
     createAt: new Date().toISOString(),

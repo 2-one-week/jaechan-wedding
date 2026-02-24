@@ -2,7 +2,7 @@ import { Comment } from '@components/icon/Comment';
 import Image from '@components/image';
 import shake from '@utils/animation/shake';
 import { motion, useAnimation } from 'framer-motion';
-import React, { HTMLAttributes, MouseEvent, useCallback } from 'react';
+import { HTMLAttributes, MouseEvent, useCallback } from 'react';
 
 type Props = HTMLAttributes<HTMLButtonElement>;
 

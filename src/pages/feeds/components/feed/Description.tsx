@@ -1,8 +1,7 @@
-import { ReactText } from 'react';
 import Text from '@components/text';
 
 interface Props {
-  children: ReactText;
+  children: string | number;
 }
 
 export function Description({ children }: Props) {

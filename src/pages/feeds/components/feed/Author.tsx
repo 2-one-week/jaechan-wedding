@@ -1,9 +1,8 @@
 import Text from '@components/text';
 import { CSSProps } from '@utils/styles';
-import { ReactText } from 'react';
 
 interface Props extends CSSProps {
-  children: ReactText;
+  children: string | number;
 }
 
 export function Author({ children, css }: Props) {

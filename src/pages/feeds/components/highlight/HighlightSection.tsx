@@ -4,7 +4,7 @@ import { Flex } from '@components/util/layout/Flex';
 import { Highlight } from '@models/Highlight';
 import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { css, styled } from 'stitches.config';
 import NextImage from 'next/image';
 interface Props {
@@ -44,7 +44,6 @@ export function HighlightSection({ highlights }: Props) {
               pathname: `/highlights/[id]`,
               query: { id },
             }}
-            passHref={true}
             shallow={true}
           >
             <StyledMotionLi
@@ -57,6 +56,7 @@ export function HighlightSection({ highlights }: Props) {
                   <Image.Root className={highlightImageLayout()}>
                     <SImage
                       {...highlight.thumbnailImage}
+                      alt={highlight.name}
                       width={60}
                       height={60}
                       placeholder="blur"
@@ -102,7 +102,7 @@ const StyledMotionLi = styled(motion.li, {
   flexShrink: 0,
 });
 
-const StyledAnchor = styled('a', {
+const StyledAnchor = styled('div', {
   flex: 'center',
   flexDirection: 'column',
   flexGrow: 0,

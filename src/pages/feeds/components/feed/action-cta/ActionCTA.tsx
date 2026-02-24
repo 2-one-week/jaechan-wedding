@@ -1,6 +1,7 @@
 import { ArrowRight as ArrowRightIcon } from '@components/icon/ArrowRight';
 import { CSSProps } from '@utils/styles';
-import React, { AllHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
+import type { JSX } from 'react';
+import { AllHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 import { styled } from 'stitches.config';
 
 type Props<ElementType extends keyof JSX.IntrinsicElements = 'div'> =

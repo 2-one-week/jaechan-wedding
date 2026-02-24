@@ -1,5 +1,6 @@
 import { CSSProps, mergeCss } from '@utils/styles';
-import React, { HTMLProps, ReactNode } from 'react';
+import type { JSX } from 'react';
+import { HTMLProps, ReactNode } from 'react';
 import { CSSType, styled } from 'stitches.config';
 
 interface Props

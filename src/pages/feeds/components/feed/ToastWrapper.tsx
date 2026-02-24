@@ -1,5 +1,5 @@
 import { CSSProps, mergeCss } from '@utils/styles';
-import React, { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import { Box } from '@components/box/Box';
 import { motion } from 'framer-motion';
 import { styled } from 'stitches.config';

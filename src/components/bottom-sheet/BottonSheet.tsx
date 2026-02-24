@@ -8,7 +8,7 @@ import { PortalConsumer } from '@providers/PortalProvider';
 import { fadeInOut } from '@utils/animation/fadeInOut';
 import { slideUpDown } from '@utils/animation/slideUpDown';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, {
+import {
   cloneElement,
   forwardRef,
   isValidElement,
@@ -51,14 +51,14 @@ export const BottomSheet = forwardRef(
                   css={{ width: '100%', marginBottom: '$8' }}
                 >
                   <Flex direction="column">
-                    {isValidElement(title) ? (
+                    {isValidElement<{ id?: string }>(title) ? (
                       cloneElement(title, { id: 'bottom-sheet--title' })
                     ) : (
                       <BottomSheetTitle id="bottom-sheet--title">
                         {title}
                       </BottomSheetTitle>
                     )}
-                    {isValidElement(description) ? (
+                    {isValidElement<{ id?: string }>(description) ? (
                       cloneElement(description, {
                         id: 'bottom-sheet--description',
                       })

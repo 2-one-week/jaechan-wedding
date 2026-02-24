@@ -3,13 +3,13 @@ import { Flex } from '@components/util/layout/Flex';
 import { EmojiProfile } from '@pages/feeds/components/feed/emoji-profile/EmojiProfile';
 import { Comment } from '@remotes/comments';
 import { format, formatDistanceToNow } from 'date-fns';
-import koLocale from 'date-fns/locale/ko';
-import React, { LiHTMLAttributes, ReactText, useMemo } from 'react';
+import { ko } from 'date-fns/locale/ko';
+import { LiHTMLAttributes, useMemo } from 'react';
 
 interface Props
   extends Omit<LiHTMLAttributes<HTMLLIElement>, 'children'>,
     Pick<Comment, 'createAt'> {
-  children: ReactText;
+  children: string | number;
 }
 
 export function CommentRow({ children, createAt, ...props }: Props) {
@@ -35,7 +35,7 @@ export function CommentRow({ children, createAt, ...props }: Props) {
           css={{ flexShrink: 0, color: '$gray500' }}
         >
           {formatDistanceToNow(new Date(createAt), {
-            locale: koLocale,
+            locale: ko,
             addSuffix: true,
           })}
         </Text>

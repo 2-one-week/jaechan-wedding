@@ -1,6 +1,6 @@
 import Text from '@components/text';
 import { Flex } from '@components/util/layout/Flex';
-import React, { ComponentProps } from 'react';
+import { ComponentProps } from 'react';
 import { mergeCss } from '@utils/styles';
 
 interface Props extends Omit<ComponentProps<typeof Flex>, 'title'> {

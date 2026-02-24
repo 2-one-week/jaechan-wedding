@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect, useRef } from 'react';
+import { ReactNode, useCallback, useEffect, useRef } from 'react';
 import { styled } from 'stitches.config';
 import { NotificationProps } from './NotificationContext';
 
@@ -31,7 +31,7 @@ export function NotificationContainer({
   autoClose,
 }: Props) {
   const autoCloseTimeout = getAutoClose(autoClose, notification);
-  const hideTimeout = useRef<number>();
+  const hideTimeout = useRef<number>(undefined);
 
   const handleHide = useCallback(() => {
     onHide(notification.id ?? '');

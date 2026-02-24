@@ -1,7 +1,7 @@
 import { Flex } from '@components/util/layout/Flex';
 import { getRandomNumberInRange } from '@utils/getRandomNumberInRange';
 import { mergeCss } from '@utils/styles';
-import React, { ComponentProps } from 'react';
+import { ComponentProps } from 'react';
 import { styled } from 'stitches.config';
 
 const animalEmojiSets = [
@@ -31,7 +31,7 @@ const animalEmojiSets = [
 ];
 
 interface Props
-  extends Omit<ComponentProps<typeof Flex['Center']>, 'id' | 'children'> {
+  extends Omit<ComponentProps<(typeof Flex)['Center']>, 'id' | 'children'> {
   id?: number;
 }
 

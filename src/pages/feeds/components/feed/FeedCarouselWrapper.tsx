@@ -2,7 +2,7 @@ import { Box } from '@components/box/Box';
 import Carousel from '@components/carousel';
 import { Dot } from '@components/carousel/Dot';
 import arrayOf from '@utils/array/arrayOf';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 interface Props {
   children: ReactElement[];

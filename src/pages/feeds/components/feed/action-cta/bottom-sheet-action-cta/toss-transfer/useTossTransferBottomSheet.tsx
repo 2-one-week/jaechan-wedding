@@ -2,7 +2,7 @@ import { BottomSheet } from '@components/bottom-sheet';
 import { List } from '@components/list/List';
 import { useDialog } from '@hooks/useDialog';
 import { useTransferData } from '@pages/feeds/components/feed/action-cta/bottom-sheet-action-cta/toss-transfer/useTransferData';
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 export function useTossTransferBottomSheet() {
   const { open } = useDialog();

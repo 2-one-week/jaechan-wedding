@@ -1,6 +1,6 @@
 import CloseIcon from '@components/icon/Close';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import React, { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement>;
 

@@ -4,7 +4,7 @@ const 원_길이 = Math.ceil(2 * Math.PI * 35);
 
 const 원_애니메이션_시간 = 0.7;
 const 원_애니메이션 = {
-  ease: 'easeOut',
+  ease: 'easeOut' as const,
   duration: 원_애니메이션_시간,
 };
 
@@ -12,7 +12,7 @@ const 체크박스_길이 = 90;
 const 체크박스_애니메이션 = {
   duration: 0.75,
   delay: 원_애니메이션_시간,
-  ease: [0.5, 0, 0.4, 1],
+  ease: [0.5, 0, 0.4, 1] as const,
 };
 
 interface Props {

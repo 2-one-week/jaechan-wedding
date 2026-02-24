@@ -25,16 +25,22 @@ export function Header({
           </Image.RoundShape>
         </SImageRoot>
 
-        {children}
+        <SName>{children}</SName>
         <SButton type="button" onClick={onClose}>
-          <CloseIcon />
+          <CloseIcon color="white" />
         </SButton>
       </Flex.CenterVertical>
     </header>
   );
 }
 
-const SImageRoot = motion(Image.Root);
+const SImageRoot = motion.create(Image.Root);
+
+const SName = styled('span', {
+  ml: '$8',
+  color: '$white',
+  fontWeight: 'bold',
+});
 
 const SButton = styled('button', {
   ml: 'auto',

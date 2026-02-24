@@ -3,7 +3,7 @@ import { getComments } from '@remotes/comments';
 import useSWR from 'swr';
 
 export function useComments(id: number) {
-  const { data, ...rest } = useSWR([id, 'getComments'], getComments, {
+  const { data, ...rest } = useSWR([id, 'getComments'], ([feedId]) => getComments(feedId), {
     suspense: true,
   });
 

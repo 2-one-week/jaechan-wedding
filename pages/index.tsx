@@ -4,8 +4,14 @@ import { Feed } from '@pages/feeds/components/feed/Feed';
 import { Footer } from '@pages/feeds/components/footer/Footer';
 import { Header } from '@pages/feeds/components/header/Header';
 import { HighlightSection } from '@pages/feeds/components/highlight/HighlightSection';
+import fs from 'fs';
 import { InferGetStaticPropsType } from 'next';
+import path from 'path';
 import { getPlaiceholder } from 'plaiceholder';
+
+async function readImageBuffer(imageSrc: string) {
+  return fs.promises.readFile(path.join(process.cwd(), 'public', imageSrc));
+}
 
 export async function getStaticProps() {
   const [feedJson, highlightJson] = await Promise.all([
@@ -19,9 +25,18 @@ export async function getStaticProps() {
     feedDataset.map(async feed => {
       const contents = await Promise.all(
         feed.contents.map(async content => {
-          const { base64, img } = await getPlaiceholder(content.imageSrc);
+          const buffer = await readImageBuffer(content.imageSrc);
+          const { base64, metadata } = await getPlaiceholder(buffer);
 
-          return { ...content, image: { ...img, blurDataURL: base64 } };
+          return {
+            ...content,
+            image: {
+              src: content.imageSrc,
+              width: metadata.width,
+              height: metadata.height,
+              blurDataURL: base64,
+            },
+          };
         })
       );
 
@@ -34,23 +49,35 @@ export async function getStaticProps() {
 
   const highlightPromises = Promise.all(
     highlightDatdaset.map(async highlight => {
-      const { base64, img } = await getPlaiceholder(
-        highlight.thumbnailImageSrc,
-        {
-          size: 24,
-        }
-      );
+      const thumbBuffer = await readImageBuffer(highlight.thumbnailImageSrc);
+      const { base64, metadata } = await getPlaiceholder(thumbBuffer, {
+        size: 24,
+      });
       const contents = await Promise.all(
         highlight.contents.map(async content => {
-          const { base64, img } = await getPlaiceholder(content.imageSrc);
+          const buffer = await readImageBuffer(content.imageSrc);
+          const { base64, metadata } = await getPlaiceholder(buffer);
 
-          return { ...content, image: { ...img, blurDataURL: base64 } };
+          return {
+            ...content,
+            image: {
+              src: content.imageSrc,
+              width: metadata.width,
+              height: metadata.height,
+              blurDataURL: base64,
+            },
+          };
         })
       );
 
       return {
         ...highlight,
-        thumbnailImage: { ...img, blurDataURL: base64 },
+        thumbnailImage: {
+          src: highlight.thumbnailImageSrc,
+          width: metadata.width,
+          height: metadata.height,
+          blurDataURL: base64,
+        },
         contents,
       } as Highlight;
     })

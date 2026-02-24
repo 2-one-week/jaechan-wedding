@@ -2,9 +2,9 @@ import { ListItemImage } from '@components/list/ListItemImage';
 import { ListItemText } from '@components/list/ListItemText';
 import { Flex } from '@components/util/layout/Flex';
 import { mergeCss } from '@utils/styles';
-import React, { Children, ComponentProps, ReactNode, useMemo } from 'react';
+import { Children, ComponentProps, ReactNode, useMemo } from 'react';
 
-type Props = ComponentProps<typeof Flex['CenterVertical']> & {
+type Props = ComponentProps<(typeof Flex)['CenterVertical']> & {
   leftAddon?: ReactNode;
   rightAddon?: ReactNode;
   spaceX?: number;

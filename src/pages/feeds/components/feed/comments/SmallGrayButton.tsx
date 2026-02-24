@@ -1,5 +1,5 @@
 import { Button } from '@components/button';
-import React, { ComponentProps } from 'react';
+import { ComponentProps } from 'react';
 
 export function SmallGrayButton(
   props: Omit<ComponentProps<typeof Button>, 'color'>

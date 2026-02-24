@@ -1,7 +1,7 @@
 import { CSSProps, mergeCss } from '@utils/styles';
 import { WithRequiredKeys } from '@utils/types';
 import NextImage, { ImageProps } from 'next/image';
-import React, { Children, ReactElement, ReactNode } from 'react';
+import { Children, ReactElement, ReactNode } from 'react';
 import { styled } from 'stitches.config';
 
 interface Props
@@ -15,8 +15,8 @@ interface Props
 const Image = ({ width, height, variants, children, ...props }: Props) => {
   const imageSource = Children.only(children);
   const SImage = styled(NextImage, {
-    width,
-    height,
+    maxWidth: '100%',
+    height: 'auto',
   });
 
   return (

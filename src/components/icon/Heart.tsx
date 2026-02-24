@@ -22,7 +22,7 @@ export function FillHeart({ ariaText = '좋아요취소' }: Props) {
   return (
     <svg
       aria-label={ariaText}
-      fill={rawColors.rose450}
+      fill={rawColors.rose450.value}
       height="24"
       viewBox="0 0 48 48"
       width="24"

@@ -1,7 +1,9 @@
 import Image from '@components/image';
 import { Highlight, RawHighlightData } from '@models/Highlight';
 import { AnimatePresence, motion } from 'framer-motion';
+import fs from 'fs';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import path from 'path';
 import { useRouter } from 'next/router';
 import { getPlaiceholder } from 'plaiceholder';
 
@@ -9,7 +11,7 @@ import { Header } from '@pages/highlights/components/Header';
 import { useAccount } from '@hooks/data/useAccount';
 
 import { styled } from 'stitches.config';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import ContentWrapper from '@pages/highlights/components/ContentWrapper';
 
 async function fetchHighlights() {
@@ -35,21 +37,38 @@ export async function getStaticProps({ params }: GetStaticPropsContext) {
 
   const highlightDataSet = await Promise.all(
     rawHighlightDataSet.map(async highlightData => {
-      const { base64, img } = await getPlaiceholder(
-        highlightData.thumbnailImageSrc
+      const thumbBuffer = await fs.promises.readFile(
+        path.join(process.cwd(), 'public', highlightData.thumbnailImageSrc)
       );
+      const { base64, metadata } = await getPlaiceholder(thumbBuffer);
 
       const contents = await Promise.all(
         highlightData.contents.map(async content => {
-          const { base64, img } = await getPlaiceholder(content.imageSrc);
+          const contentBuffer = await fs.promises.readFile(
+            path.join(process.cwd(), 'public', content.imageSrc)
+          );
+          const { base64, metadata } = await getPlaiceholder(contentBuffer);
 
-          return { ...content, image: { ...img, blurDataURL: base64 } };
+          return {
+            ...content,
+            image: {
+              src: content.imageSrc,
+              width: metadata.width,
+              height: metadata.height,
+              blurDataURL: base64,
+            },
+          };
         })
       );
 
       const highlight: Highlight = {
         ...highlightData,
-        thumbnailImage: { ...img, blurDataURL: base64 },
+        thumbnailImage: {
+          src: highlightData.thumbnailImageSrc,
+          width: metadata.width,
+          height: metadata.height,
+          blurDataURL: base64,
+        },
         contents,
       };
 
@@ -78,7 +97,9 @@ export default function HighlightPage({ highlight, highlightDataSet }: Props) {
 
   const [index, setIndex] = useState(() => {
     return (
-      highlightDataSet?.findIndex(dataSet => dataSet.id === highlight?.id) ?? 0
+      highlightDataSet?.findIndex(
+        (dataSet: Highlight) => dataSet.id === highlight?.id
+      ) ?? 0
     );
   });
 
@@ -88,7 +109,7 @@ export default function HighlightPage({ highlight, highlightDataSet }: Props) {
       return;
     }
 
-    setIndex(prev => prev + 1);
+    setIndex((prev: number) => prev + 1);
   }, [highlightDataSet, index, router]);
 
   const setPrev = useCallback(() => {
@@ -97,7 +118,7 @@ export default function HighlightPage({ highlight, highlightDataSet }: Props) {
       return;
     }
 
-    setIndex(prev => prev - 1);
+    setIndex((prev: number) => prev - 1);
   }, [index, router]);
 
   const dataLength = highlightDataSet?.length ?? 0;

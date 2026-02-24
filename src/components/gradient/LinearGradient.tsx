@@ -11,7 +11,7 @@ const LinearGradient = ({ colorKeys }: Pick<GradientProps, 'colorKeys'>) => {
           <stop
             key={`${colorKey}-${index}`}
             offset={`${index}`}
-            stopColor={rawColors[colorKey]}
+            stopColor={rawColors[colorKey].value}
           />
         ))}
       </linearGradient>

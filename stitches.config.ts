@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { createCss, StitchesCss } from '@stitches/react';
+import { createStitches, CSS } from '@stitches/react';
 
-const stitches = createCss({
+const stitches = createStitches({
   theme: {
     colors: {
       black: '#000',
@@ -348,126 +348,98 @@ const stitches = createCss({
     desktop: '(min-width: 520px)',
   },
   utils: {
-    size: () => (value: number) => ({
+    size: (value: number) => ({
       width: value,
       height: value,
     }),
-    m:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        marginTop: value,
-        marginBottom: value,
-        marginLeft: value,
-        marginRight: value,
-      }),
-    mt:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        marginTop: value,
-      }),
-    mr:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        marginRight: value,
-      }),
-    mb:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        marginBottom: value,
-      }),
-    ml:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        marginLeft: value,
-      }),
-    mx:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        marginLeft: value,
-        marginRight: value,
-      }),
-    my:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        marginTop: value,
-        marginBottom: value,
-      }),
+    m: (value: string) => ({
+      marginTop: value,
+      marginBottom: value,
+      marginLeft: value,
+      marginRight: value,
+    }),
+    mt: (value: string) => ({
+      marginTop: value,
+    }),
+    mr: (value: string) => ({
+      marginRight: value,
+    }),
+    mb: (value: string) => ({
+      marginBottom: value,
+    }),
+    ml: (value: string) => ({
+      marginLeft: value,
+    }),
+    mx: (value: string) => ({
+      marginLeft: value,
+      marginRight: value,
+    }),
+    my: (value: string) => ({
+      marginTop: value,
+      marginBottom: value,
+    }),
 
-    p:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        paddingTop: value,
-        paddingBottom: value,
-        paddingLeft: value,
-        paddingRight: value,
-      }),
-    pt:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        paddingTop: value,
-      }),
-    pr:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        paddingRight: value,
-      }),
-    pb:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        paddingBottom: value,
-      }),
-    pl:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        paddingLeft: value,
-      }),
-    px:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        paddingLeft: value,
-        paddingRight: value,
-      }),
-    py:
-      config =>
-      (value: `$${keyof typeof config['theme']['space'] | (string & {})}`) => ({
-        paddingTop: value,
-        paddingBottom: value,
-      }),
+    p: (value: string) => ({
+      paddingTop: value,
+      paddingBottom: value,
+      paddingLeft: value,
+      paddingRight: value,
+    }),
+    pt: (value: string) => ({
+      paddingTop: value,
+    }),
+    pr: (value: string) => ({
+      paddingRight: value,
+    }),
+    pb: (value: string) => ({
+      paddingBottom: value,
+    }),
+    pl: (value: string) => ({
+      paddingLeft: value,
+    }),
+    px: (value: string) => ({
+      paddingLeft: value,
+      paddingRight: value,
+    }),
+    py: (value: string) => ({
+      paddingTop: value,
+      paddingBottom: value,
+    }),
 
-    inset: () => (value: string | number) => ({
+    inset: (value: string | number) => ({
       top: value,
       right: value,
       bottom: value,
       left: value,
     }),
 
-    br: config => (value: `$${keyof typeof config['theme']['radii']}`) => ({
+    br: (value: string) => ({
       borderRadius: value,
     }),
 
-    bg: config => (value: `$${keyof typeof config['theme']['colors']}`) => ({
+    bg: (value: string) => ({
       backgroundColor: value,
     }),
 
-    spaceX: () => (value: string | number) => ({
+    spaceX: (value: string | number) => ({
       '& > :not([hidden]) ~ :not([hidden])': {
         marginLeft: value,
       },
     }),
-    spaceY: () => (value: string | number) => ({
+    spaceY: (value: string | number) => ({
       '& > :not([hidden]) ~ :not([hidden])': {
         marginTop: value,
       },
     }),
-    insetX: () => (value: string | number) => ({
+    insetX: (value: string | number) => ({
       top: value,
       right: value,
     }),
-    insetY: () => (value: string | number) => ({
+    insetY: (value: string | number) => ({
       top: value,
       bottom: value,
     }),
-    flex: _ => (value: 'center' | 'horizontalCenter' | 'verticalCenter') => {
+    flex: (value: 'center' | 'horizontalCenter' | 'verticalCenter') => {
       if (value === 'center') {
         return {
           display: 'flex',
@@ -488,7 +460,7 @@ const stitches = createCss({
         alignItems: 'center',
       };
     },
-    clickable: () => () => ({
+    clickable: () => ({
       position: 'relative',
       cursor: 'pointer',
       '&:after': {
@@ -513,12 +485,12 @@ const stitches = createCss({
   },
 });
 
-export type CSSType = StitchesCss<typeof stitches>;
+export type CSSType = CSS<typeof config>;
 export type Color = CSSType['color'];
 
-export const { styled, css, theme, getCssString, global, keyframes, config } =
+export const { styled, css, theme, getCssText, globalCss, keyframes, config } =
   stitches;
 
 export type HexColorKey = keyof typeof theme.colors;
 export const rawColors = theme.colors;
-export const 아이콘_컬러 = rawColors.trueGray600;
+export const 아이콘_컬러 = rawColors.trueGray600.value;

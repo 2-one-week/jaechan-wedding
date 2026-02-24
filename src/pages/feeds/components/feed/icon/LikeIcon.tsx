@@ -3,7 +3,7 @@ import Image from '@components/image';
 import { useNotifications } from '@components/notification/NotificationContext';
 import useBooleanState from '@hooks/useBooleanState';
 import { motion, useAnimation } from 'framer-motion';
-import React, {
+import {
   forwardRef,
   HTMLAttributes,
   MouseEvent,

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React, { ComponentProps, MouseEvent, useCallback } from 'react';
+import { ComponentProps, MouseEvent, useCallback } from 'react';
 import { styled } from 'stitches.config';
 
 interface Props extends ComponentProps<typeof LayeredBackground> {

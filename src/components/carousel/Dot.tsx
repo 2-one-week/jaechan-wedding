@@ -1,8 +1,10 @@
 import { CSSProps, mergeCss } from '@utils/styles';
-import React, { HTMLAttributes, ReactElement } from 'react';
+import { HTMLAttributes, ReactElement } from 'react';
 import { styled, Color } from 'stitches.config';
 
-interface Props extends HTMLAttributes<HTMLButtonElement>, CSSProps {
+interface Props
+  extends Omit<HTMLAttributes<HTMLButtonElement>, 'color'>,
+    CSSProps {
   color?: Color;
   size?: number;
 }

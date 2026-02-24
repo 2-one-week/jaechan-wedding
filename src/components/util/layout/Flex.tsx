@@ -1,4 +1,5 @@
 import { CSSProps } from '@utils/styles';
+import type { JSX } from 'react';
 import React from 'react';
 import { styled } from 'stitches.config';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import NextDocument, { Html, Head, Main, NextScript } from 'next/document';
-import { getCssString } from '../stitches.config';
+import { getCssText } from '../stitches.config';
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -11,7 +11,7 @@ export default class Document extends NextDocument {
         <Head>
           <style
             id="stitches"
-            dangerouslySetInnerHTML={{ __html: getCssString() }}
+            dangerouslySetInnerHTML={{ __html: getCssText() }}
           />
           <script
             async
